@@ -1,83 +1,107 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Api_Usuarios_Proyecto_Programación_Avanzada_.Data;
+using Api_Usuarios_Proyecto_Programación_Avanzada_.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
 {
-    public class RolesController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class RolesController : ControllerBase
     {
-        // GET: RolesController
-        public ActionResult Index()
+        private readonly ConexionDbContext _contextAcceso;
+
+        public RolesController(ConexionDbContext contextAcceso)
         {
-            return View();
+            _contextAcceso = contextAcceso;
         }
 
-        // GET: RolesController/Details/5
-        public ActionResult Details(int id)
+        //Mostrar todos los roles existentes
+        [HttpGet]
+        public ActionResult<IEnumerable<RolModel>> ObtenerRol()
         {
-            return View();
+            return Ok(_contextAcceso.roles.ToList());
         }
 
-        // GET: RolesController/Create
-        public ActionResult Create()
+        // Obtener un rol por ID
+        [HttpGet("{_id}")]
+        public ActionResult<IEnumerable<UsuarioModel>> ObtenerRoles(int _id)
         {
-            return View();
+            var datos = _contextAcceso.roles.Find(_id);
+
+            if (datos == null)
+            {
+                return NotFound("El dato buscado no existe.");
+            }
+
+            return Ok(datos);
         }
 
-        // POST: RolesController/Create
+        //Agregar un Nuevo Rol
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult AgregarRol(RolModel _datos)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _contextAcceso.roles.Add(_datos);
+                _contextAcceso.SaveChanges();
+
+                return Ok("Rol insertado exitosamente.");
+
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return StatusCode(500, ex.Message);
             }
         }
 
-        // GET: RolesController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: RolesController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //Editar/Modificar un rol existente
+        [HttpPut]
+        public IActionResult ModificarRol(RolModel _datos)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ConsultarDatos(_datos.rol_id))
+                {
+                    return NotFound("El dato buscado no existe.");
+                }
+                _contextAcceso.Entry(_datos).State = EntityState.Modified;
+                _contextAcceso.SaveChanges();
+
+                return Ok("Rol modificado exitosamente.");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return StatusCode(500, ex.Message);
             }
         }
 
-        // GET: RolesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RolesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //Eliminar un usuarios
+        [HttpDelete("{_id}")]
+        public ActionResult EliminarRol(int _id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ConsultarDatos(_id))
+                {
+                    return NotFound("El dato buscado no existe.");
+                }
+                var datos = _contextAcceso.roles.Find(_id);
+                _contextAcceso.roles.Remove(datos);
+                _contextAcceso.SaveChanges();
+
+                return Ok($"Se elimino el registro {_id}");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return StatusCode(500, ex.Message);
             }
+        }
+
+        private bool ConsultarDatos(int _id)
+        {
+            return _contextAcceso.roles.Any(x => x.rol_id == _id);
         }
     }
 }
