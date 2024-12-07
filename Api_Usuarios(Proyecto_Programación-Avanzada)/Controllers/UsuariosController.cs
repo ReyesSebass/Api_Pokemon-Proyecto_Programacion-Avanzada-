@@ -38,6 +38,24 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
             return Ok(datos);
         }
 
+        //Agregar un Nuevo Usuario
+        [HttpPost]
+        public IActionResult AgregarUsuario(UsuarioModel _datos)
+        {
+            try
+            {
+                _contextAcceso.users.Add(_datos);
+                _contextAcceso.SaveChanges();
+
+                return Ok("Usuario insertado exitosamente.");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         //Editar/Modificar un usuario existente
         [HttpPut]
         public IActionResult ModificarUsuario(UsuarioModel _datos)

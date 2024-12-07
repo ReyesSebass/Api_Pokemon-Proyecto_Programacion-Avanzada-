@@ -25,6 +25,9 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Data
         //Parte de Pokemon_team
         public DbSet<PokemonTeamModel> pokemon_team { get; set; }
 
+        //Parte de Peticiones de enfermeria
+        public DbSet<EnfermeriaModel> peticones_de_enfermeria { get; set; }
+
         //Parte de Retos
         public DbSet<RetosModel> retos { get; set; }
 
@@ -35,6 +38,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Data
             modelBuilder.Entity<PokedexModel>().ToTable("pokedex");
             modelBuilder.Entity<PokemonUsersModel>().ToTable("pokemon_users");
             modelBuilder.Entity<PokemonTeamModel>().ToTable("pokemon_team");
+            modelBuilder.Entity<EnfermeriaModel>().ToTable("peticiones_de_enfermeria");
             modelBuilder.Entity<RetosModel>().ToTable("retos");
         }
 

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ConexionDbContext>(
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))
 
     ));
+builder.Services.AddHttpClient<PokemonService>();
 
 // Add services to the container.
 
@@ -39,3 +40,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
