@@ -3,15 +3,10 @@
     public class EnfermeriaModel
     {
         public int peticion_id { get; set; }
-        public int enfermera_id { get; set; }
-        public int entrenador_id { get; set; }
-        public int pokemon_id { get; set; }
+        public UsuarioModel enfermera_id { get; set; }
+        public UsuarioModel entrenador_id { get; set; }
+        public PokedexModel pokemon_id { get; set; }
         public DateTime fecha_peticion { get; set; }
         public string estado { get; set; }
-
-        // Relaciones con la tabla 'users' y 'pokedex'
-        public UsuarioModel Enfermera { get; set; }
-        public UsuarioModel Entrenador { get; set; }
-        public PokedexModel Pokemon { get; set; }
     }
 }

@@ -6,9 +6,6 @@
         public string nombre { get; set; }
         public string correo { get; set; }
         public string contraseña { get; set; }
-        public string id_rol { get; set; }
-
-        // Relación con el modelo RolModel
         public RolModel rol_id { get; set; }
     }
 }

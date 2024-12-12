@@ -18,17 +18,17 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Mostrar todos los usuarios existentes
-        [HttpGet]
+        [HttpGet("Obtener todos los usuarios")]
         public ActionResult<IEnumerable<UsuarioModel>> ObtenerUsuarios()
         {
-            return Ok(_contextAcceso.users.ToList());
+            return Ok(_contextAcceso.G8_Users.ToList());
         }
 
         // Obtener un usuario por ID
-        [HttpGet("{_id}")]
+        [HttpGet("Obtener usuario por id")]
         public ActionResult<IEnumerable<UsuarioModel>> ObtenerUsuarios(int _id)
         {
-            var datos = _contextAcceso.users.Find(_id);
+            var datos = _contextAcceso.G8_Users.Find(_id);
 
             if (datos == null)
             {
@@ -39,12 +39,12 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Agregar un Nuevo Usuario
-        [HttpPost]
+        [HttpPost("Agregar Usuario")]
         public IActionResult AgregarUsuario(UsuarioModel _datos)
         {
             try
             {
-                _contextAcceso.users.Add(_datos);
+                _contextAcceso.G8_Users.Add(_datos);
                 _contextAcceso.SaveChanges();
 
                 return Ok("Usuario insertado exitosamente.");
@@ -57,7 +57,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Editar/Modificar un usuario existente
-        [HttpPut]
+        [HttpPut("Editar Usuario")]
         public IActionResult ModificarUsuario(UsuarioModel _datos)
         {
             try
@@ -78,7 +78,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Eliminar un usuarios
-        [HttpDelete("{_id}")]
+        [HttpDelete("Eliminar Usuario")]
         public ActionResult EliminarUsuarios(int _id)
         {
             try
@@ -87,8 +87,8 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
                 {
                     return NotFound("El dato buscado no existe.");
                 }
-                var datos = _contextAcceso.users.Find(_id);
-                _contextAcceso.users.Remove(datos);
+                var datos = _contextAcceso.G8_Users.Find(_id);
+                _contextAcceso.G8_Users.Remove(datos);
                 _contextAcceso.SaveChanges();
 
                 return Ok($"Se elimino el registro {_id}");
@@ -103,7 +103,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         // Funcion para verificar si exise 
         private bool ConsultarDatos(int _id)
         {
-            return _contextAcceso.users.Any(x => x.user_id == _id);
+            return _contextAcceso.G8_Users.Any(x => x.user_id == _id);
         }
     }
 }

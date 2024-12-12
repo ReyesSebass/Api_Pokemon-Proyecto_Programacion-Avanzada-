@@ -18,17 +18,17 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Mostrar todos los roles existentes
-        [HttpGet]
+        [HttpGet("Obtener todos los roles")]
         public ActionResult<IEnumerable<RolModel>> ObtenerRol()
         {
-            return Ok(_contextAcceso.roles.ToList());
+            return Ok(_contextAcceso.G8_Roles.ToList());
         }
 
         // Obtener un rol por ID
-        [HttpGet("{_id}")]
+        [HttpGet("Buscar rol por id")]
         public ActionResult<IEnumerable<UsuarioModel>> ObtenerRoles(int _id)
         {
-            var datos = _contextAcceso.roles.Find(_id);
+            var datos = _contextAcceso.G8_Roles.Find(_id);
 
             if (datos == null)
             {
@@ -39,12 +39,12 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Agregar un Nuevo Rol
-        [HttpPost]
+        [HttpPost("Agregar Rol")]
         public IActionResult AgregarRol(RolModel _datos)
         {
             try
             {
-                _contextAcceso.roles.Add(_datos);
+                _contextAcceso.G8_Roles.Add(_datos);
                 _contextAcceso.SaveChanges();
 
                 return Ok("Rol insertado exitosamente.");
@@ -57,7 +57,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Editar/Modificar un rol existente
-        [HttpPut]
+        [HttpPut("Editar Rol")]
         public IActionResult ModificarRol(RolModel _datos)
         {
             try
@@ -78,7 +78,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Eliminar un usuarios
-        [HttpDelete("{_id}")]
+        [HttpDelete("Eliminar Rol")]
         public ActionResult EliminarRol(int _id)
         {
             try
@@ -87,8 +87,8 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
                 {
                     return NotFound("El dato buscado no existe.");
                 }
-                var datos = _contextAcceso.roles.Find(_id);
-                _contextAcceso.roles.Remove(datos);
+                var datos = _contextAcceso.G8_Roles.Find(_id);
+                _contextAcceso.G8_Roles.Remove(datos);
                 _contextAcceso.SaveChanges();
 
                 return Ok($"Se elimino el registro {_id}");
@@ -101,7 +101,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
 
         private bool ConsultarDatos(int _id)
         {
-            return _contextAcceso.roles.Any(x => x.rol_id == _id);
+            return _contextAcceso.G8_Roles.Any(x => x.rol_id == _id);
         }
     }
 }

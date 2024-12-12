@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class PokedexController : Controller
     {
         private readonly ConexionDbContext _contextAcceso;
@@ -15,17 +17,17 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Mostrar todos los pokemones existentes
-        [HttpGet("getAllPokemon")]
+        [HttpGet("Obtener toda la Pokedex")]
         public ActionResult<IEnumerable<PokedexModel>> ObtenerTodoslosPokemones()
         {
-            return Ok(_contextAcceso.pokedex.ToList());
+            return Ok(_contextAcceso.G8_Pokedex.ToList());
         }
 
         // Obtener un pokemon por ID
-        [HttpGet("searchPokemon by {_id}")]
+        [HttpGet("Obtener pokemon por ID")]
         public ActionResult<IEnumerable<PokedexModel>> ObtenerPokemon(int _id)
         {
-            var datos = _contextAcceso.pokedex.Find(_id);
+            var datos = _contextAcceso.G8_Pokedex.Find(_id);
 
             if (datos == null)
             {
@@ -36,15 +38,15 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Agregar un Nuevo Pokemon
-        [HttpPost("addPokemon")]
+        [HttpPost("Agregar Pokemon")]
         public IActionResult AgregarPokemon(PokedexModel _datos)
         {
             try
             {
-                _contextAcceso.pokedex.Add(_datos);
-                _contextAcceso.SaveChanges();
+                _contextAcceso.G8_Pokedex.Add(_datos);
+                _contextAcceso.SaveChangesAsync();
 
-                return Ok("Se registro un nuevo pokemon en la pokedex");
+                return Ok("Pokemon insertado exitosamente.");
 
             }
             catch (Exception ex)
@@ -54,7 +56,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Editar/Modificar un pokemon existente
-        [HttpPut("editPokemon")]
+        [HttpPut("Editar Pokemon")]
         public IActionResult ModificarPokemon(PokedexModel _datos)
         {
             try
@@ -75,7 +77,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         }
 
         //Eliminar un pokemon
-        [HttpDelete("deletePokemon")]
+        [HttpDelete("Eliminar Pokemon")]
         public ActionResult EliminarPokemon(int _id)
         {
             try
@@ -84,11 +86,11 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
                 {
                     return NotFound("El pokemon buscado no existe.");
                 }
-                var datos = _contextAcceso.pokedex.Find(_id);
-                _contextAcceso.pokedex.Remove(datos);
+                var datos = _contextAcceso.G8_Pokedex.Find(_id);
+                _contextAcceso.G8_Pokedex.Remove(datos);
                 _contextAcceso.SaveChanges();
 
-                return Ok($"Se elimino el pokemon con el id: {_id}, la base de datos");
+                return Ok($"Se elimino el pokemon con el id: {_id}, de la base de datos");
             }
             catch (Exception ex)
             {
@@ -100,7 +102,7 @@ namespace Api_Usuarios_Proyecto_Programación_Avanzada_.Controllers
         // Funcion para verificar si exise 
         private bool ConsultarDatos(int _id)
         {
-            return _contextAcceso.pokedex.Any(x => x.pokemon_id == _id);
+            return _contextAcceso.G8_Pokedex.Any(x => x.pokemon_id == _id);
         }
     }
 }
