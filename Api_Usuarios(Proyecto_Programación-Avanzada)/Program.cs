@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Add conexion to the server
 //"ConnectionString": {
 //"ConexionBD": "mysql://root:HCPRCPTglAJIKicrKKpnjUrnQGLQmDjC@junction.proxy.rlwy.net:10318/railway;"
+//"ConexionBD": "Server=srv863.hstgr.io;Port=3306;User=u484426513_pac324;Password=B&XWouC#9Ef;Database=u484426513_pac324;"
 //},
 var connectionString = builder.Configuration.GetConnectionString("ConexionBD");
 
@@ -15,7 +16,6 @@ builder.Services.AddDbContext<ConexionDbContext>(
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 27))
 
     ));
-builder.Services.AddHttpClient<PokemonService>();
 
 // Add services to the container.
 
