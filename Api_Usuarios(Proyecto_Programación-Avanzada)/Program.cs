@@ -12,7 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("ConexionBD");
 //Add to the service
 builder.Services.AddDbContext<ConexionDbContext>(
     options =>
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21))
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 27))
 
     ));
 builder.Services.AddHttpClient<PokemonService>();
